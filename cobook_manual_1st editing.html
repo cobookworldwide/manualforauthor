@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가편집 매뉴얼 for 코북TXT TO Cobook</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .page-number {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .page {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 100px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            border-top: 4px solid #667eea;
+            min-height: 85vh;
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .navigation-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: #5a67d8;
+            transform: scale(1.1);
+        }
+        
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Page 1 Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.8em;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.5em;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+        
+        .process-overview {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .process-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .process-list li {
+            counter-increment: step-counter;
+            margin: 15px 0;
+            padding-left: 50px;
+            position: relative;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        .process-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .notice {
+            background: linear-gradient(45deg, #ff9a56, #ff6b95);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+        
+        /* Content Pages Styles */
+        .section-title {
+            font-size: 2.2em;
+            color: #2d3748;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .steps li {
+            counter-increment: step-counter;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(45deg, #ffd89b, #19547b);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .video-guide, .link-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 15px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .video-guide:hover, .link-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+        
+        .video-guide::before {
+            content: "▶";
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .link-button::before {
+            content: "🔗";
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .download-button {
+            background: linear-gradient(45deg, #4caf50, #45a049);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 15px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .download-button::before {
+            content: "📥";
+            margin-right: 8px;
+        }
+        
+        .warning {
+            background: linear-gradient(45deg, #ff9a56, #ff6b95);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .credentials {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            border: 2px solid #4a5568;
+        }
+        
+        .final-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin: 0 -40px;
+        }
+        
+        .checklist {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+        
+        .checklist-item::before {
+            content: "✅";
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+        
+        .email-template {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid rgba(255,255,255,0.3);
+            text-align: left;
+        }
+        
+        .bold {
+            font-weight: bold;
+        }
+        
+        .emoji-arrow {
+            color: #667eea;
+            font-size: 1.2em;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page 1 -->
+        <div class="page active" id="page-1">
+            <div class="header">
+                <h1>가편집 매뉴얼</h1>
+                <div class="subtitle">for 코북TXT TO Cobook</div>
+            </div>
+            
+            <div class="process-overview">
+                <ol class="process-list">
+                    <li><strong>'목차&강연대본' to '코북 수업화'</strong> 구글독스 생성</li>
+                    <li><strong>강연대본 TO 오디오 생성</strong> (MP3 / fish audio)</li>
+                    <li><strong>오디오 TO 자막 생성</strong> (SRT / VREW)</li>
+                    <li><strong>자막 TO PPT 트랙 생성</strong> (PPTM / MS 파워포인트)</li>
+                    <li><strong>BGM 추천</strong> (PIXABAY) - 생략 가능</li>
+                </ol>
+                <div class="notice">
+                    ※ <strong>저자·강사가 '목차&강연대본' 작성을 마친 뒤 가편집 돌입</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2 -->
+        <div class="page" id="page-2">
+            <h2 class="section-title">가편집에 앞서 강연대본의 '코북 수업화'</h2>
+            <ol class="steps">
+                <li><strong>'목차&강연대본(공용작업 폴더의) 구글독스'</strong>에 파트이름, 챕터이름, 본문이 모두 잘 입력돼 있는지 체크</li>
+                
+                <li>한 챕터마다 강연대본이 <strong>구글독스 기준 2~3페이지 분량</strong>인지 다시 확인. 코북은 챕터별로 구글독스 2페이지~3페이지가 가장 이상적임.
+                    <div class="info-box">
+                        (<strong>구글독스 2페이지 = 영상 약 10분</strong> / <strong>구글독스 3페이지 = 영상 약 15분</strong>)
+                    </div>
+                </li>
+                
+                <li>원고에 괄호를 치고 년도를 적거나 부연설명을 넣는 경우가 있는데, 이 경우 <strong>이상하게 오디오가 생성되므로 강연대본에 맞게 잘 수정해줘야 합니다.</strong> (괄호 안 내용을 삭제하든지 해야 AI가 그걸 읽었을 때 자연스럽겠죠.)</li>
+                
+                <li><strong>오탈자는 없는지 다시 한번 체크해주세요.</strong> 빨간 밑줄 있는 부분을 찾아서 올바르게 수정해주세요. 오탈자를 그대로 두면 AI가 잘못 읽을 수 있으니까요</li>
+                
+                <li>필요 시 <strong>'목차&강연대본'을 '코북 수업화'</strong>: 기존의 강연 대본을 코북 영상에 최적화한 대본으로 변환. 즉, <strong>질문으로 시작하며 호기심을 유발하고 말미엔 개별 튜터링을 유도하면서 마무리하는 '코북식 수업'</strong>으로 대본 변환.<br><br>
+                    <div class="highlight-box">
+                        A. 여기 <span class="emoji-arrow">👉</span><strong>코북식 수업화 프롬프트</strong><span class="emoji-arrow">👈</span> 로 들어가서 전체를 복사한 뒤 자신이 쓰는 AI(챗지피티, 클로드, 제미나이 등 <strong>여러개 동시 활용 추천</strong>)에 일단 붙여넣기 하고 엔터키 쳐서 학습시키기<br><br>
+                        B. 그런 다음 챕터제목과 챕터본문을 붙여넣기 하기. 그러면 바로 <strong>코북 수업에 최적화된 챕터제목과 챕터본문이 생성될 것임.</strong><br><br>
+                        C. 공용작업폴더에 있는 <strong>'02코북식 수업화 대본' 구글독스</strong>에 AI가 코북에 최적화하여 생성한 새 챕터제목과 새 챕터본문을 붙여넣기<br>
+                        <br>
+                        <a class="link-button" href="https://docs.google.com/document/d/1rVBYi20aoZ8dM2Hsqarki85KqQirFE52JyCll9iAjTE/edit?usp=sharing" target="_blank">코북식 수업화 프롬프트 보기</a>
+                        <a class="video-guide" href="https://us06web.zoom.us/clips/share/iopkXm2BTF-408DnrIuUwQ" target="_blank">코북식 수업화 대본 생성 가이드영상</a>
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Page 3 -->
+        <div class="page" id="page-3">
+            <h2 class="section-title">FISH AUDIO</h2>
+            <ol class="steps">
+                <li>출연할 <strong>강사 또는 저자의 30초 짜리 음성파일</strong>을 준비한다.</li>
+                
+                <li><a class="link-button" href="https://fish.audio" target="_blank">https://fish.audio</a> 접속해 로그인
+                    <div class="credentials">
+                        (아이디 <strong>happydreamsmart@gmail.com</strong> 비번: 15자리)
+                    </div>
+                    피시오디오에 들어가서 <strong>보이스를 클로닝(복제)</strong>해서 목소리를 학습시킨다. 
+                    <div class="warning">
+                        (<strong>public이 아니라 private 모드로 클로닝해야 함!!</strong>)
+                    </div>
+                </li>
+                
+                <li><strong>목차&강연대본 구글독스</strong>를 연다.<br><br>
+                    챕터별로 강연대본 텍스트를 <strong>FISH AUDIO에 입력해서 생성된 음성파일을 다운받는다.</strong> 가끔 중간에 이상한 소리가 나는 오류가 발생하니 꼭 한번 들어봐야 함. 
+                    <div class="warning">
+                        <strong>파일명은 챕터명과 동일하게 입력한다.</strong>
+                    </div>
+                </li>
+                
+                <li><strong>mp3 파일을 공동 작업용 폴더(구글 드라이브)</strong>의 폴더 <strong>'챕터별 오디오(mp3) & 영상 파일(H264/mp4/비메오 업로드용)'</strong>에 업로드한다.</li>
+            </ol>
+            <a class="video-guide" href="https://us06web.zoom.us/clips/share/zDUhdL6xSXeCKS4ZlT_gNg" target="_blank">🎺 가이드영상 보기</a>
+        </div>
+
+        <!-- Page 4 -->
+        <div class="page" id="page-4">
+            <h2 class="section-title">VREW</h2>
+            <ol class="steps">
+                <li>구글에서 <strong>'vrew'</strong>라고 검색해 vrew 다운받아 설치</li>
+                
+                <li><strong>VREW에 아까 fish audio로 생성한 오디오파일을 챕터별로 한 개씩 올리고</strong> 가장 긴 길이로 자막생성 (<strong>음성인식 엔진 WHISPER AI 선택</strong>)</li>
+                
+                <li>문장 또는 의미 단위로 <strong>'엔터키'를 쳐서 자막구간을 정하기</strong> (영상은 잠금 상태) (<strong>화면 속 자막 2~3줄이면 ok</strong>)</li>
+                
+                <li>이어서 VREW의 <strong>'자막' 메뉴 눌러서 '전체자막 번역'</strong>눌러 <strong>제2의 언어(영어) 번역자막 생성</strong></li>
+                
+                <li><strong>SRT 파일을 출력(제1 자막, 제 2 자막 둘다)</strong>해서 챕터명과 동일한 파일명으로 저장</li>
+                
+                <li>구글 드라이브의 폴더 <strong>'챕터별 SRT 자막파일 & 챕터별 PPTM 트랙 파일 (파워포인트 마크로 파일)'</strong>에 업로드</li>
+            </ol>
+            <a class="video-guide" href="https://us06web.zoom.us/clips/share/_SZ4TPswScSAuYA_5Jbd7Q" target="_blank">🎺 가이드영상 보기</a>
+        </div>
+
+        <!-- Page 5 -->
+        <div class="page" id="page-5">
+            <h2 class="section-title">PPT 트랙 생성 (MS 파워포인트)</h2>
+            <ol class="steps">
+                <li>
+                    <a class="download-button" href="https://drive.google.com/file/d/1mAoi6L_C8pq81c0h5-Fq4xQYoSad42SX/view?usp=sharing" target="_blank">PPTM 파일 다운받기</a>
+                </li>
+                
+                <li><strong>pptm 파일 우클릭 - '속성' 누르고 - 맨 아래 '보안'에서 '차단해제' 체크!</strong> (가이드영상 참고)</li>
+                
+                <li><strong>pptm(파워포인트 매크로) 파일을 열고 상단에 '개발 도구' - '매크로'를 누른 뒤</strong><br>
+                    <strong>'SetSlideTrimmingAndNotesFromSRT' 선택하고 '실행' 클릭</strong></li>
+                
+                <li><strong>챕터별 SRT 파일을 선택한 뒤 '확인' 누르면</strong> srt의 자막에 맞는 최적 이미지를 슬라이드별로 찾도록 ppt가 변환 됨</li>
+                
+                <li><strong>슬라이드노트의 자막내용을 보면서</strong> 기존에 내가 갖고 있던 수업용 ppt파일에서 <strong>'슬라이드 이미지'를 복사해서 붙여넣기</strong> (슬라이드 자체가 아니라 슬라이드의 이미지를 복사해서 붙여넣기 해야 함: <strong>폰트 및 전환효과 때문</strong>)</li>
+                
+                <li><strong>검은색 버튼을 눌러 적절한 AI 이미지를 찾기</strong></li>
+            </ol>
+            <a class="video-guide" href="https://us06web.zoom.us/clips/share/cpJl4xg7Roe52FQOk8jUdQ" target="_blank">🎺 가이드영상 보기</a>
+        </div>
+
+        <!-- Page 6 -->
+        <div class="page" id="page-6">
+            <h2 class="section-title">PIXABAY에서 BGM 고르기</h2>
+            <ol class="steps">
+                <li><a class="link-button" href="https://pixabay.com/music/" target="_blank">https://pixabay.com/music/</a> 접속</li>
+                
+                <li><strong>필터를 적용해서 원하는 BGM 찾기</strong></li>
+                
+                <li>다운받아서 구글드라이브의 <strong>'추천 BGM (저작권 문제 없는 BGM 파일만 업로드)' 폴더에 업로드</strong></li>
+            </ol>
+            <div class="info-box">
+                <strong>추천BGM 폴더에 음악파일을 올리지 않으실 경우 코북 제작자가 알아서 BGM 선정함</strong>
+            </div>
+        </div>
+
+        <!-- Page 7 -->
+        <div class="page" id="page-7">
+            <div class="final-section">
+                <h2>🎉 수고하셨습니다.</h2>
+                <p style="font-size: 1.2em; margin-bottom: 20px;"><strong>구글 드라이브에 가편집 결과물인 아래 5가지를 다 올리셨나요?</strong></p>
+                
+                <div class="checklist">
+                    <div class="checklist-item"><strong>① 새 구글독스 '코북식 수업화 대본' (구글독스)</strong></div>
+                    <div class="checklist-item"><strong>② 챕터별 오디오 파일(MP3/FISH AUDIO)</strong></div>
+                    <div class="checklist-item"><strong>③ 챕터별 자막 파일(SRT / VREW)</strong></div>
+                    <div class="checklist-item"><strong>④ 챕터별 PPT 트랙 파일 (PPTM / 파워포인트)</strong></div>
+                    <div class="checklist-item"><strong>⑤ BGM 추천 음악파일</strong></div>
+                </div>
+
+                <p style="font-size: 1.1em; margin-top: 30px;">
+                    그렇다면 <strong>admin@cobook.ai</strong>에 메일을 보내서 <strong>'종합편집 및 코북 업로드'</strong>를 요청해주세요.
+                </p>
+                
+                <div class="email-template">
+                    <strong>📧 메일 제목:</strong> [종편요청] 강사명 _ 클래스제목<br><br>
+                    <strong>📝 메일 본문:</strong> 코북 제작진에게 전달하고 싶은 내용을 적어주세요.
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Container -->
+        <div class="navigation-container">
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="changePage(-1)">‹</button>
+                <div class="page-number" id="pageNumber">1 / 7</div>
+                <button class="nav-btn" id="nextBtn" onclick="changePage(1)">›</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 7;
+
+        function changePage(direction) {
+            const current = document.getElementById(`page-${currentPage}`);
+            current.classList.remove('active');
+
+            currentPage += direction;
+
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const next = document.getElementById(`page-${currentPage}`);
+            next.classList.add('active');
+
+            updateNavigation();
+            updatePageNumber();
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        function updatePageNumber() {
+            const pageNumber = document.getElementById('pageNumber');
+            pageNumber.textContent = `${currentPage} / ${totalPages}`;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' && currentPage < totalPages) {
+                changePage(1);
+            } else if (event.key === 'ArrowLeft' && currentPage > 1) {
+                changePage(-1);
+            }
+        });
+
+        // Initialize
+        updateNavigation();
+        updatePageNumber();
+    </script>
+</body>
+</html>
